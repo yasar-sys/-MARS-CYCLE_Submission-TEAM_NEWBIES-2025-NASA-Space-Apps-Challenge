@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARS-CYCLE Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0808 100%);
+            padding: 60px;
+            position: relative;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 1.2em;
+            color: #ff6b35;
+            font-weight: bold;
+        }
+        
+        .nasa-header {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            font-size: 1.5em;
+            color: #ff6b35;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 4em;
+            color: #ff6b35;
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+        }
+        
+        h2 {
+            font-size: 3em;
+            color: #ff6b35;
+            margin-bottom: 40px;
+        }
+        
+        h3 {
+            font-size: 2em;
+            color: #ffa07a;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 1.3em;
+            line-height: 1.8;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .subtitle {
+            font-size: 2em;
+            color: #00ffff;
+            margin-bottom: 40px;
+        }
+        
+        ul {
+            list-style: none;
+            font-size: 1.4em;
+            line-height: 2;
+        }
+        
+        li {
+            margin: 15px 0;
+            padding-left: 40px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #00ffff;
+        }
+        
+        .highlight {
+            color: #00ffff;
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .stat-box {
+            background: rgba(255, 107, 53, 0.1);
+            border: 3px solid #ff6b35;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3.5em;
+            color: #ff6b35;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.2em;
+            color: #ffa07a;
+        }
+        
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+        }
+        
+        .process-box {
+            flex: 1;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 0 10px;
+        }
+        
+        .process-number {
+            font-size: 2em;
+            color: #00ffff;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .process-name {
+            font-size: 1.3em;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .process-desc {
+            font-size: 1em;
+            color: #aaa;
+        }
+        
+        .arrow-flow {
+            font-size: 2em;
+            color: #00ffff;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .scenario-box {
+            background: linear-gradient(145deg, rgba(255, 107, 53, 0.1), rgba(0, 255, 255, 0.05));
+            border: 2px solid #ff6b35;
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .scenario-title {
+            font-size: 1.8em;
+            color: #ff6b35;
+            margin-bottom: 15px;
+        }
+        
+        .innovation-box {
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), rgba(0, 255, 255, 0.2));
+            border: 3px solid #00ffff;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+        
+        button {
+            background: #ff6b35;
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: #00ffff;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .bullet-fade li {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        .bullet-fade li:nth-child(1) { animation-delay: 0.1s; }
+        .bullet-fade li:nth-child(2) { animation-delay: 0.3s; }
+        .bullet-fade li:nth-child(3) { animation-delay: 0.5s; }
+        .bullet-fade li:nth-child(4) { animation-delay: 0.7s; }
+        .bullet-fade li:nth-child(5) { animation-delay: 0.9s; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .table {
+            width: 100%;
+            margin: 30px 0;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            background: #ff6b35;
+            color: #000;
+            padding: 15px;
+            font-size: 1.2em;
+            text-align: left;
+        }
+        
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #444;
+            font-size: 1.1em;
+        }
+        
+        .table tr:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div style="text-align: center;">
+                <h1>MARS-CYCLE</h1>
+                <div class="subtitle">Modular Adaptive Recycling System<br>Circular Yield & Closed-Loop Economy</div>
+                <p style="font-size: 1.8em; margin-top: 40px;">Revolutionizing Recycling on Mars</p>
+                <p style="font-size: 1.4em; color: #aaa; margin-top: 20px;">Jezero Crater Sustainable Waste Management Facility</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Challenge -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">2</div>
+            <h2>The Challenge</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number">8</span>
+                    <span class="stat-label">Crew Members</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Years</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">12,600</span>
+                    <span class="stat-label">kg Waste</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">Recovery Goal</span>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 1.6em; margin-top: 40px;">
+                How do we manage, reuse, and recycle inorganic waste on Mars<br>
+                when resupply missions cost <span class="highlight">$50,000+ per kg?</span>
+            </p>
+        </div>
+
+        <!-- Slide 3: Our Solution -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">3</div>
+            <h2>Our Solution: MARS-CYCLE</h2>
+            <p>A comprehensive five-stage recycling facility that transforms waste into valuable products</p>
+            <div class="process-flow" style="margin-top: 60px;">
+                <div class="process-box">
+                    <span class="process-number">1</span>
+                    <span class="process-name">SORTING</span>
+                    <span class="process-desc">Material ID & Separation</span>
+                </div>
+                <span class="arrow-flow">→</span>
+                <div class="process-box">
+                    <span class="process-number">2</span>
+                    <span class="process-name">MECHANICAL</span>
+                    <span class="process-desc">Shredding & Processing</span>
+                </div>
+                <span class="arrow-flow">→</span>
+                <div class="process-box">
+                    <span class="process-number">3</span>
+                    <span class="process-name">THERMAL</span>
+                    <span class="process-desc">Heat Treatment</span>
+                </div>
+                <span class="arrow-flow">→</span>
+                <div class="process-box">
+                    <span class="process-number">4</span>
+                    <span class="process-name">ADDITIVE</span>
+                    <span class="process-desc">3D Manufacturing</span>
+                </div>
+                <span class="arrow-flow">→</span>
+                <div class="process-box">
+                    <span class="process-number">5</span>
+                    <span class="process-name">STORAGE</span>
+                    <span class="process-desc">Quality & Distribution</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Three Scenarios -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">4</div>
+            <h2>Three Mission Scenarios</h2>
+            <div class="two-column">
+                <div class="scenario-box">
+                    <span class="scenario-title">1️⃣ Residence Renovations</span>
+                    <p><strong>Input:</strong> Habitat setup materials</p>
+                    <ul class="bullet-fade">
+                        <li>Aluminum structures</li>
+                        <li>Carbon fiber composites</li>
+                        <li>Foam packaging</li>
+                    </ul>
+                    <p style="margin-top: 20px;"><strong>Output:</strong></p>
+                    <ul class="bullet-fade">
+                        <li>Radiation shields</li>
+                        <li>Storage shelves</li>
+                        <li>Insulation layers</li>
+                    </ul>
+                </div>
+                <div class="scenario-box">
+                    <span class="scenario-title">2️⃣ Cosmic Celebrations</span>
+                    <p><strong>Input:</strong> Daily life materials</p>
+                    <ul class="bullet-fade">
+                        <li>Textiles & fabrics</li>
+                        <li>Food packaging</li>
+                        <li>Thermal pouches</li>
+                    </ul>
+                    <p style="margin-top: 20px;"><strong>Output:</strong></p>
+                    <ul class="bullet-fade">
+                        <li>Party cups & plates</li>
+                        <li>Decorative banners</li>
+                        <li>Utensils</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="scenario-box" style="margin-top: 30px;">
+                <span class="scenario-title">3️⃣ Daring Discoveries - Carbon Utilization</span>
+                <p><strong>Input:</strong> CO₂ extracted carbon + research waste → <strong>Output:</strong> Water filters, air purifiers, carbon fiber tools</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Key Innovation -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">5</div>
+            <h2>🌟 Key Innovation</h2>
+            <div class="innovation-box">
+                <h3 style="font-size: 2.5em; color: #00ffff; margin-bottom: 30px;">Carbon Utilization Hub</h3>
+                <p style="font-size: 1.6em; line-height: 2;">
+                    MARS-CYCLE uniquely transforms <span class="highlight">carbon extracted from Mars' CO₂ atmosphere</span> 
+                    into high-value products including water filters, air purification systems, and structural composites.
+                </p>
+                <p style="font-size: 1.4em; margin-top: 30px; color: #ffa07a;">
+                    This creates a <strong>dual-purpose system</strong> that supports both atmospheric processing 
+                    and manufacturing—truly living off the land on Mars!
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Performance Metrics -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">6</div>
+            <h2>📊 Performance Metrics</h2>
+            <table class="table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                    <th>Impact</th>
+                </tr>
+                <tr>
+                    <td>Material Recovery Rate</td>
+                    <td><span class="highlight">95%</span></td>
+                    <td>Only 5% waste</td>
+                </tr>
+                <tr>
+                    <td>Energy Efficiency</td>
+                    <td><span class="highlight">78%</span></td>
+                    <td>Heat recovery system</td>
+                </tr>
+                <tr>
+                    <td>Water Recovery</td>
+                    <td><span class="highlight">70%</span></td>
+                    <td>Closed-loop recycling</td>
+                </tr>
+                <tr>
+                    <td>Crew Time Required</td>
+                    <td><span class="highlight">4.4 hrs/person/week</span></td>
+                    <td>75% automated</td>
+                </tr>
+                <tr>
+                    <td>Processing Capacity</td>
+                    <td><span class="highlight">35 kg/day</span></td>
+                    <td>Meets mission needs</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Slide 7: Safety & Sustainability -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">7</div>
+            <h2>🛡️ Safety & Sustainability</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Safety Features</h3>
+                    <ul class="bullet-fade">
+                        <li>✅ <strong>No Combustion</strong> - Sealed thermal processes only</li>
+                        <li>✅ <strong>Zero Toxic Emissions</strong> - HEPA filtration throughout</li>
+                        <li>✅ <strong>No PFAS Generated</strong> - Careful material selection</li>
+                        <li>✅ <strong>Microplastic Prevention</strong> - All wastewater filtered</li>
+                        <li>✅ <strong>Emergency Shutdown</strong> - Automatic system isolation</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Sustainability</h3>
+                    <ul class="bullet-fade">
+                        <li>🌱 <strong>Closed-Loop</strong> - Minimal external inputs</li>
+                        <li>🌱 <strong>Regolith Integration</strong> - Uses local Martian soil</li>
+                        <li>🌱 <strong>Solar Powered</strong> - Each station has panels</li>
+                        <li>🌱 <strong>Scalable</strong> - Modular design for growth</li>
+                        <li>🌱 <strong>10+ Year Lifespan</strong> - Long-term reliability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Facility Overview -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">8</div>
+            <h2>🏗️ Facility Layout</h2>
+            <p style="text-align: center; margin-bottom: 40px;">Jezero Crater, Mars</p>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number">400m²</span>
+                    <span class="stat-label">Total Footprint</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Processing Stations</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">60m²</span>
+                    <span class="stat-label">Solar Array</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">89</span>
+                    <span class="stat-label">Total Components</span>
+                </div>
+            </div>
+            <div style="margin-top: 60px;">
+                <p style="font-size: 1.4em;"><strong>Layout Features:</strong></p>
+                <ul class="bullet-fade">
+                    <li>Semi-circular arrangement around main habitat</li>
+                    <li>Connected by covered corridors for safe crew transit</li>
+                    <li>Each station: 3m × 3m × 3m modular cube</li>
+                    <li>Solar panels on every station roof (2.5m × 2.5m)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 9: Impact -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">9</div>
+            <h2>🎯 Mission Impact</h2>
+            <div class="innovation-box">
+                <h3 style="color: #00ffff; margin-bottom: 40px;">Why MARS-CYCLE Matters</h3>
+                <div class="two-column" style="text-align: left;">
+                    <div>
+                        <p><strong style="color: #ff6b35;">Cost Savings:</strong></p>
+                        <p>Recycling 12,000 kg saves <span class="highlight">$600+ million</span> in resupply costs</p>
+                        
+                        <p style="margin-top: 30px;"><strong style="color: #ff6b35;">Mission Enabler:</strong></p>
+                        <p>Makes long-duration Mars missions <span class="highlight">feasible and sustainable</span></p>
+                    </div>
+                    <div>
+                        <p><strong style="color: #ff6b35;">Crew Wellbeing:</strong></p>
+                        <p>Provides tools, supplies, and even <span class="highlight">party materials</span> for morale</p>
+                        
+                        <p style="margin-top: 30px;"><strong style="color: #ff6b35;">Future Ready:</strong></p>
+                        <p>Scalable design supports <span class="highlight">permanent Mars settlements</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Thank You -->
+        <div class="slide">
+            <div class="nasa-header">🚀 NASA SPACE APPS 2025</div>
+            <div class="slide-number">10</div>
+            <div style="text-align: center;">
+                <h1 style="font-size: 5em;">THANK YOU</h1>
+                <div class="subtitle" style="margin-top: 60px;">MARS-CYCLE</div>
+                <p style="font-size: 1.8em; margin-top: 40px;">Revolutionizing Recycling on Mars</p>
+                
+                <div style="margin-top: 80px; padding: 40px; background: rgba(255, 107, 53, 0.1); border-radius: 15px;">
+                    <p style="font-size: 1.4em; line-height: 2;">
+                        <strong>SpaceTrash Hack Challenge</strong><br>
+                        Jezero Crater | 8 Crew | 3 Years | 95% Recovery<br>
+                        <span class="highlight">Living Off the Land on Mars</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            // Update slide number display
+            const slideNumber = slides[currentSlide].querySelector('.slide-number');
+            if (slideNumber) {
+                slideNumber.textContent = currentSlide + 1;
+            }
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        document.getElementById('prevBtn').disabled = true;
+    </script>
+</body>
+</html>
